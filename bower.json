@@ -1,0 +1,21 @@
+{
+  "name": "majoCart",
+  "version": "0.0.0",
+  "authors": [
+    "takashi.akagi <nisyu@mac.com>"
+  ],
+  "description": "jquery cart.",
+  "main": "jQuery.majoCart.js",
+  "keywords": [
+    "jquery",
+    "cart"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
