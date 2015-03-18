@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>カートサンプル</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="jQuery.majoCart.js" ></script>
+<script>
+$(function(){
+  $('.cart').cart();
+});
+</script>
+</head>
+<body>
+
+<div class="item">
+  <div class="name">ほげほげ</saan></div>
+  <div><span class="code">0001</saan></div>
+  <div><span class="price">2000</saan></div>
+  <div><input type="button" class="add_to_cart" value="カートに入れる"></div>
+</div>
+
+<div class="item">
+  <div><span class="name">ふがふが</saan></div>
+  <div><span class="code">0002</saan></div>
+  <div><span class="price">11000</saan></div>
+  <div><input type="button" class="add_to_cart" value="カートに入れる"></div>
+</div>
+
+<div class="item">
+  <div><span class="name">ぺけぺけ</saan></div>
+  <div><span class="code">0003</saan></div>
+  <div><span class="price">0.33</saan></div>
+  <div><input type="button" class="add_to_cart" value="カートに入れる"></div>
+</div>
+
+<div class="cart">
+  <table>
+    <tr class="item">
+      <td class="name">ぺけぺけ</td>
+      <td class="code">0003</td>
+      <td class="quantity">1</td>
+      <td class="price">0.33</td>
+    </tr>
+    <tr class="cals">
+      <td class="title" colspan="3">ごうけい</td>
+      <td class="total">1200</td>
+    </tr>
+  </table>
+</div>
+
+
+</body>
+</html>
