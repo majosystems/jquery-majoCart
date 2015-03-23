@@ -1,6 +1,8 @@
 (function($) {
   $.fn.cart = function(options){
+    // オブジェクト本体の参照を保存
     var cart_view = this;
+
     var defaults = {
       item: 'item',
       name: 'name',
@@ -19,12 +21,17 @@
       return('.' + selecter_str);
     }
 
+    // カートの計算行
     var cart_cals_line = $(cart_view.find(ss(settings.cals))[0]);
+    // カートのアイテム行
     var cart_item_line = $(cart_view.find(ss(settings.item))[0]);
+    // カートの表示元タグ
     var cart_cals_base = cart_item_line.parent();
 
+    // カートには入っているアイテムの保管場所
     var cart_items = [];
 
+    // カートの表示
     var show_cart = function(items){
       $(cart_view.find(ss(settings.cals))).remove();
       $(cart_view.find(ss(settings.item))).remove();
@@ -35,7 +42,7 @@
         this_item.find(ss(settings.code)).text(items[i].code);
         this_item.find(ss(settings.price)).text(items[i].price);
         this_item.find(ss(settings.quantity)).text(1);
-        total += parseInt(items[i].price);
+        total += parseFloat(items[i].price);
         cart_cals_base.append(this_item);
       }
       this_item = cart_cals_line.clone();
@@ -43,6 +50,7 @@
       cart_cals_base.append(this_item);
     }
 
+    // アイテムのカートボタンへのアクションを登録
     $(ss(settings.item)).each(function(){
         var item_view = $(this);
         item_view.find(ss(settings.add_to_cart)).click(function(){
