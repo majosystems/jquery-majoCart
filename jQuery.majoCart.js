@@ -12,7 +12,10 @@
       cart_item: 'item',
       quantity: 'quantity',
       cals: 'cals',
-      total: 'total'
+      total: 'total',
+      form_path: '/order.html',
+      form_method: 'post',
+      //form_
     };
     var settings = $.extend(defaults, options);
 
