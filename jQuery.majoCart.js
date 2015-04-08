@@ -2,6 +2,7 @@
   $.fn.cart = function(options){
     // オブジェクト本体の参照を保存
     var cart_view = this;
+    var baseup = 1000;
 
     var defaults = {
       item: 'item',
@@ -51,7 +52,7 @@
         var this_item = cart_item_line.clone();
         this_item.find(ss(settings.name)).text(cart_items[i].name);
         this_item.find(ss(settings.code)).text(cart_items[i].code);
-        this_item.find(ss(settings.price)).text(cart_items[i].price);
+        this_item.find(ss(settings.price)).text(cart_items[i].price / baseup);
         this_item.find(ss(settings.delete_btn)).data('code',cart_items[i].code);
         this_item.find(ss(settings.delete_btn)).click(function(){
           for(var j = 0; j < cart_items.length; j++){
@@ -63,11 +64,11 @@
           show_cart();
         });
         this_item.find(ss(settings.quantity)).text(cart_items[i].quantity);
-        total += parseFloat(cart_items[i].price * cart_items[i].quantity);
+        total += cart_items[i].price * cart_items[i].quantity;
         cart_cals_base.append(this_item);
       }
       this_item = cart_cals_line.clone();
-      this_item.find(ss(settings.total)).text(total);
+      this_item.find(ss(settings.total)).text(total / baseup);
       cart_cals_base.append(this_item);
       save_cart(cart_items);
     }
@@ -84,11 +85,11 @@
             name: item_view.find(ss(settings.name)).text(),
             code: item_view.find(ss(settings.code)).text(),
             quantity: 1,
-            price: item_view.find(ss(settings.price)).text()
+            price: parseFloat(item_view.find(ss(settings.price)).text()) * baseup
           }
           for(var j = 0; j < cart_items.length; j++){
             if(cart_items[j].code == o.code){
-              console.log(o.quantity + ':' + cart_items[j].quantity)
+              // console.log(o.quantity + ':' + cart_items[j].quantity)
               cart_items[j].quantity += o.quantity;
               chk_flg = false;
               break;
