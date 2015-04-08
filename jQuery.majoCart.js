@@ -11,11 +11,11 @@
       add_to_cart: 'add_to_cart',
       cart_item: 'item',
       quantity: 'quantity',
+      delete_btn: 'delete',
       cals: 'cals',
       total: 'total',
       form_path: '/order.html',
-      form_method: 'post',
-      //form_
+      form_method: 'post'
     };
     var settings = $.extend(defaults, options);
 
@@ -31,42 +31,78 @@
     // カートの表示元タグ
     var cart_cals_base = cart_item_line.parent();
 
-    // カートには入っているアイテムの保管場所
-    var cart_items = [];
+    // カート内容をクッキーに保存
+    var save_cart = function(){
+      $.cookie("majoCart", JSON.stringify(cart_items), { expires: 7 });
+    }
+
+    // カート内容からロード
+    var load_cart = function(){
+      return JSON.parse($.cookie('majoCart'));
+    }
 
     // カートの表示
-    var show_cart = function(items){
+    var show_cart = function(){
+//      alert("aaa");
       $(cart_view.find(ss(settings.cals))).remove();
       $(cart_view.find(ss(settings.item))).remove();
       var total = 0;
-      for(var i = 0; i < items.length; i++){
+      for(var i = 0; i < cart_items.length; i++){
         var this_item = cart_item_line.clone();
-        this_item.find(ss(settings.name)).text(items[i].name);
-        this_item.find(ss(settings.code)).text(items[i].code);
-        this_item.find(ss(settings.price)).text(items[i].price);
-        this_item.find(ss(settings.quantity)).text(1);
-        total += parseFloat(items[i].price);
+        this_item.find(ss(settings.name)).text(cart_items[i].name);
+        this_item.find(ss(settings.code)).text(cart_items[i].code);
+        this_item.find(ss(settings.price)).text(cart_items[i].price);
+        this_item.find(ss(settings.delete_btn)).data('code',cart_items[i].code);
+        this_item.find(ss(settings.delete_btn)).click(function(){
+          for(var j = 0; j < cart_items.length; j++){
+            if(cart_items[j].code == $(this).data('code')){
+              cart_items.splice(j,1);
+              break;
+            }
+          }
+          show_cart();
+        });
+        this_item.find(ss(settings.quantity)).text(cart_items[i].quantity);
+        total += parseFloat(cart_items[i].price * cart_items[i].quantity);
         cart_cals_base.append(this_item);
       }
       this_item = cart_cals_line.clone();
       this_item.find(ss(settings.total)).text(total);
       cart_cals_base.append(this_item);
+      save_cart(cart_items);
     }
+
+    // カートに入っているアイテムの保管場所
+    var cart_items = load_cart() || [];
 
     // アイテムのカートボタンへのアクションを登録
     $(ss(settings.item)).each(function(){
         var item_view = $(this);
         item_view.find(ss(settings.add_to_cart)).click(function(){
-          cart_items.push({
+          var chk_flg = true;
+          var o = {
             name: item_view.find(ss(settings.name)).text(),
             code: item_view.find(ss(settings.code)).text(),
+            quantity: 1,
             price: item_view.find(ss(settings.price)).text()
-          });
-          show_cart(cart_items);
+          }
+          for(var j = 0; j < cart_items.length; j++){
+            if(cart_items[j].code == o.code){
+              console.log(o.quantity + ':' + cart_items[j].quantity)
+              cart_items[j].quantity += o.quantity;
+              chk_flg = false;
+              break;
+            }
+          }
+          if(chk_flg){
+            cart_items.push(o);
+          }
+          show_cart();
         });
     });
 
-    show_cart(cart_items);
+    show_cart();
     return(this);
   };
 })(jQuery);
+
