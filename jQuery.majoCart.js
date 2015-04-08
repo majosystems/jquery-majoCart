@@ -39,7 +39,7 @@
 
     // カート内容からロード
     var load_cart = function(){
-      return JSON.parse($.cookie('majoCart') || []);
+      return JSON.parse($.cookie('majoCart') || "[]");
     }
 
     // カートの表示
