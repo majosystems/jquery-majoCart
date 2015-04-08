@@ -44,7 +44,6 @@
 
     // カートの表示
     var show_cart = function(){
-//      alert("aaa");
       $(cart_view.find(ss(settings.cals))).remove();
       $(cart_view.find(ss(settings.item))).remove();
       var total = 0;
@@ -89,7 +88,6 @@
           }
           for(var j = 0; j < cart_items.length; j++){
             if(cart_items[j].code == o.code){
-              // console.log(o.quantity + ':' + cart_items[j].quantity)
               cart_items[j].quantity += o.quantity;
               chk_flg = false;
               break;
