@@ -33,8 +33,10 @@
     var cart_cals_base = cart_item_line.parent();
 
     // カート内容をクッキーに保存
-    var save_cart = function(){
-      $.cookie("majoCart", JSON.stringify(cart_items), { expires: 7 });
+    var save_cart = function(items, options){
+      var defaults = { expires: 7, path: '/'};
+      var settings = $.extend(defaults, options);
+      $.cookie("majoCart", JSON.stringify(items), settings);
     }
 
     // カート内容からロード
