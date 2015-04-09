@@ -17,7 +17,8 @@
       total: 'total',
       form_path: '/order.html',
       form_method: 'post',
-      order_message: 'message'
+      order_message: 'order_message',
+      clear_cart: 'majoCart_clear'
     };
     var settings = $.extend(defaults, options);
 
@@ -51,13 +52,19 @@
     }
     // オーダーの文字列をセット
     var set_order_message = function(){
-      $('#'+settings.order_message).text(create_message(cart_items));
+      $(ss(settings.order_message)).val(create_message(cart_items));
     }
     // カート内容をクッキーに保存
     var save_cart = function(items, options){
       var defaults = { expires: 7, path: '/'};
       var settings = $.extend(defaults, options);
       $.cookie("majoCart", JSON.stringify(items), settings);
+    }
+    // カートのクリア
+    var clear_cart = function(){
+      if($(ss(settings.clear_cart)).length > 0){
+        $.removeCookie("majoCart",settings);
+      }
     }
 
     // カート内容からロード
@@ -125,6 +132,7 @@
 
     show_cart();
     set_order_message();
+    clear_cart();
     return(this);
   };
 })(jQuery);
