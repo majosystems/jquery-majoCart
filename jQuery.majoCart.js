@@ -16,7 +16,8 @@
       cals: 'cals',
       total: 'total',
       form_path: '/order.html',
-      form_method: 'post'
+      form_method: 'post',
+      order_message: 'message'
     };
     var settings = $.extend(defaults, options);
 
@@ -32,6 +33,26 @@
     // カートの表示元タグ
     var cart_cals_base = cart_item_line.parent();
 
+    // オーダーメッセージの作成
+    var create_message = function(items){
+      var msa = [];
+      var total = 0;
+      for(var i = 0; i < items.length; i++){
+        var line_total = items[i].price * cart_items[i].quantity;
+        msa.push(
+          items[i].name +
+          ' [' + items[i].code + '] x ' +
+          items[i].quantity +
+          ' ' + ( line_total / baseup) ) + ' BTC';
+        total += line_total;
+      }
+      msa.push('    Total: ' + (total / baseup));
+      return msa.join("\n");
+    }
+    // オーダーの文字列をセット
+    var set_order_message = function(){
+      $('#'+settings.order_message).text(create_message(cart_items));
+    }
     // カート内容をクッキーに保存
     var save_cart = function(items, options){
       var defaults = { expires: 7, path: '/'};
@@ -103,6 +124,7 @@
     });
 
     show_cart();
+    set_order_message();
     return(this);
   };
 })(jQuery);
